@@ -77,3 +77,28 @@ def run():
 
 if __name__ == "__main__":
     run()
+
+
+import smtplib
+from email.mime.text import MIMEText
+
+SMTP_EMAIL = os.environ["SMTP_EMAIL"]
+SMTP_PASSWORD = os.environ["SMTP_PASSWORD"]
+TO_EMAIL = os.environ["TO_EMAIL"]
+
+def send_email(file_path):
+    with open(file_path, "r") as f:
+        content = f.read()
+
+    msg = MIMEText(content)
+    msg["Subject"] = "Pulse Daily Summary"
+    msg["From"] = SMTP_EMAIL
+    msg["To"] = TO_EMAIL
+
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    server.login(SMTP_EMAIL, SMTP_PASSWORD)
+    server.sendmail(SMTP_EMAIL, TO_EMAIL, msg.as_string())
+    server.quit()
+
+send_email("daily_summary.txt")    

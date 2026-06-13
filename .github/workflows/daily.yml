@@ -32,3 +32,12 @@ jobs:
         with:
           name: daily-summary
           path: daily_summary.txt
+
+
+- name: Run Pulse bot
+  run: python bot.py
+  env:
+    SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+    SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+    TO_EMAIL: ${{ secrets.TO_EMAIL }}
+
